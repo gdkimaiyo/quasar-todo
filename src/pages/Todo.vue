@@ -1,5 +1,20 @@
 <template>
   <q-page class="bg-grey-3 column">
+    <div class="row q-pa-sm">
+      <q-input
+        filled
+        v-model="newTask"
+        placeholder="Add task"
+        bg-color="white"
+        class="col"
+        dense
+        @keyup.enter="addTask"
+      >
+        <template v-slot:append>
+          <q-btn round dense flat icon="add" @click="addTask" />
+        </template>
+      </q-input>
+    </div>
     <q-list class="bg-white" separator bordered>
       <q-item
         v-for="task in tasks"
@@ -31,6 +46,10 @@
         </q-item-section>
       </q-item>
     </q-list>
+    <div class="no-tasks absolute-center" v-if="tasks.length === 0">
+      <q-icon name="check" size="100px" color="primary" />
+      <div class="text-h5 text-center text-primary">No Tasks...</div>
+    </div>
   </q-page>
 </template>
 
@@ -44,6 +63,7 @@ export default defineComponent({
 
   setup() {
     return {
+      newTask: ref(""),
       tasks: ref([
         {
           id: Math.floor(Math.random() * 100) * Date.now(),
@@ -74,6 +94,15 @@ export default defineComponent({
       console.log(JSON.parse(JSON.stringify(this.tasks)));
     },
 
+    addTask() {
+      this.tasks.push({
+        id: Math.floor(Math.random() * 100) * Date.now(),
+        title: this.newTask,
+        done: false,
+      });
+      this.newTask = "";
+    },
+
     deleteTask(taskId) {
       Dialog.create({
         title: "Confirm",
@@ -99,5 +128,8 @@ export default defineComponent({
     color: #bbb;
     text-decoration: line-through;
   }
+}
+.no-tasks {
+  opacity: 0.8;
 }
 </style>
