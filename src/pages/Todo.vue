@@ -21,7 +21,7 @@
         :key="task.id"
         v-ripple
         clickable
-        @click="task.done = !task.done"
+        @click="markTask(task.id)"
         :class="{ 'done bg-blue-1': task.done }"
       >
         <q-item-section avatar>
@@ -46,7 +46,7 @@
         </q-item-section>
       </q-item>
     </q-list>
-    <div class="no-tasks absolute-center" v-if="tasks.length === 0">
+    <div class="no-tasks absolute-center" v-if="tasks?.length === 0">
       <q-icon name="check" size="100px" color="primary" />
       <div class="text-h5 text-center text-primary">No Tasks...</div>
     </div>
@@ -64,43 +64,43 @@ export default defineComponent({
   setup() {
     return {
       newTask: ref(""),
-      tasks: ref([
-        {
-          id: Math.floor(Math.random() * 100) * Date.now(),
-          title: "Learn JavaScript",
-          done: true,
-        },
-        {
-          id: Math.floor(Math.random() * 100) * Date.now(),
-          title: "Learn Vue",
-          done: true,
-        },
-        {
-          id: Math.floor(Math.random() * 100) * Date.now(),
-          title: "Use Quasar Framework with Vue",
-          done: false,
-        },
-      ]),
+      tasks: ref([]),
+      // tasks: ref([
+      //   {
+      //     id: Math.floor(Math.random() * 100) * Date.now(),
+      //     title: "Learn JavaScript",
+      //     done: true,
+      //   },
+      //   {
+      //     id: Math.floor(Math.random() * 100) * Date.now(),
+      //     title: "Learn Vue",
+      //     done: true,
+      //   },
+      //   {
+      //     id: Math.floor(Math.random() * 100) * Date.now(),
+      //     title: "Use Quasar Framework with Vue",
+      //     done: false,
+      //   },
+      // ]),
     };
   },
 
   methods: {
     markTask(taskId) {
-      this.tasks.forEach((task) => {
-        if (task.id === taskId) {
-          task.done = !task.done;
-        }
-      });
-      console.log(JSON.parse(JSON.stringify(this.tasks)));
+      this.markTodoAsDOne(taskId);
     },
 
     addTask() {
-      this.tasks.push({
-        id: Math.floor(Math.random() * 100) * Date.now(),
-        title: this.newTask,
-        done: false,
-      });
-      this.newTask = "";
+      if (this.newTask !== "") {
+        const newTask = {
+          id: Math.floor(Math.random() * 100) * Date.now(),
+          title: this.newTask,
+          done: false,
+        };
+        this.addTodos(newTask);
+        this.getTodos();
+        this.newTask = "";
+      }
     },
 
     deleteTask(taskId) {
@@ -110,14 +110,88 @@ export default defineComponent({
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        this.tasks = this.tasks.filter((task) => task.id !== taskId);
-        Notify.create({
-          type: "positive",
-          message: "Task successfully deleted",
-          group: false,
-        });
+        this.deleteTodos(taskId);
       });
     },
+
+    /*
+     * Local Storage
+     */
+    // Get existing tasks saved in local storage
+    getTodos() {
+      if (
+        localStorage.getItem("quasar_todos") &&
+        typeof Storage !== undefined
+      ) {
+        this.tasks = JSON.parse(localStorage.getItem("quasar_todos") || "[]");
+        // console.log(JSON.parse(JSON.stringify(this.tasks)));
+      } else {
+        this.tasks = [];
+      }
+    },
+
+    markTodoAsDOne(taskId) {
+      if (
+        localStorage.getItem("quasar_todos") &&
+        typeof Storage !== undefined
+      ) {
+        let todos = JSON.parse(localStorage.getItem("quasar_todos") || "[]");
+        todos.forEach((task) => {
+          if (task.id === taskId) {
+            task.done = !task.done;
+          }
+        });
+        localStorage.setItem("quasar_todos", JSON.stringify(todos));
+        this.getTodos();
+      } else {
+        Notify.create({
+          type: "negative",
+          message: "Error! Unable to mark task as done",
+          group: false,
+        });
+      }
+    },
+
+    // Save a task to local storage
+    addTodos(task) {
+      if (
+        localStorage.getItem("quasar_todos") &&
+        typeof Storage !== undefined
+      ) {
+        let todos = JSON.parse(localStorage.getItem("quasar_todos") || "[]");
+        todos.push(task);
+        localStorage.setItem("quasar_todos", JSON.stringify(todos));
+      } else {
+        if (typeof Storage !== undefined) {
+          let todos = [];
+          todos.push(task);
+          localStorage.setItem("quasar_todos", JSON.stringify(todos));
+        } else {
+          Notify.create({
+            type: "negative",
+            message: "Error! Unable to add task",
+            group: false,
+          });
+        }
+      }
+    },
+
+    // Delete a task in local storage
+    deleteTodos(taskId) {
+      let todos = JSON.parse(localStorage.getItem("quasar_todos") || "[]");
+      todos = todos.filter((task) => task.id !== taskId);
+      localStorage.setItem("quasar_todos", JSON.stringify(todos));
+      Notify.create({
+        type: "positive",
+        message: "Task successfully deleted",
+        group: false,
+      });
+      this.getTodos();
+    },
+  },
+
+  mounted() {
+    this.getTodos();
   },
 });
 </script>
