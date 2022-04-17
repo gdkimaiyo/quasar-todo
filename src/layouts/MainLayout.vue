@@ -1,14 +1,19 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
-        <q-toolbar-title></q-toolbar-title>
+      <div class="navigation">
+        <div class="nav-menu q-pt-sm">
+          <q-btn no-caps flat to="/" class="nav-btn" label="Home" />
+          <q-btn no-caps flat to="/help" class="nav-btn" label="Help" />
+        </div>
+
         <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
+          class="menu-btn q-ma-sm"
           @click="drawer = !drawer"
         >
           <q-menu auto-close>
@@ -37,7 +42,7 @@
                   <q-icon name="list" />
                 </q-item-section>
 
-                <q-item-section> Todo </q-item-section>
+                <q-item-section> Home </q-item-section>
               </q-item>
               <q-item to="/help" exact clickable v-ripple>
                 <q-item-section avatar>
@@ -49,7 +54,7 @@
             </q-list>
           </q-menu>
         </q-btn>
-      </q-toolbar>
+      </div>
       <div class="q-px-md q-pt-lg q-mb-md header-content">
         <div class="text-h3">Todo</div>
         <div class="text-subtitle1">{{ todaysDate }}</div>
@@ -92,10 +97,34 @@ export default defineComponent({
   opacity: 0.3;
   filter: grayscale(100%);
 }
+.navigation {
+  position: absolute;
+  right: 0;
+}
+.nav-menu {
+  display: block;
+  margin-right: 48px;
+}
+.menu-btn {
+  display: none;
+}
+.nav-btn:hover {
+  color: #42b983;
+}
 .header-content {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  margin-top: 48px;
   margin-bottom: 24px;
+}
+
+@media only screen and (max-width: 575px) {
+  .menu-btn {
+    display: block;
+  }
+  .nav-menu {
+    display: none;
+  }
 }
 </style>
