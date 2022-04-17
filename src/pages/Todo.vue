@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg-grey-3 column">
-    <div class="row q-pa-sm">
+    <div class="row q-pa-sm q-py-md input-section">
       <q-input
         filled
         v-model="newTask"
@@ -15,13 +15,14 @@
         </template>
       </q-input>
     </div>
-    <q-list class="bg-white" separator bordered>
+    <q-list class="q-pa-sm tasks-section" separator>
       <q-item
         v-for="task in tasks"
         :key="task.id"
         v-ripple
         clickable
         @click="markTask(task.id)"
+        class="bg-white"
         :class="{ 'done bg-blue-1': task.done }"
       >
         <q-item-section avatar>
@@ -46,7 +47,7 @@
         </q-item-section>
       </q-item>
     </q-list>
-    <div class="no-tasks absolute-center" v-if="tasks?.length === 0">
+    <div class="no-tasks text-center q-mt-xl" v-if="tasks?.length === 0">
       <q-icon name="check" size="100px" color="primary" />
       <div class="text-h5 text-center text-primary">No Tasks...</div>
     </div>
@@ -65,23 +66,6 @@ export default defineComponent({
     return {
       newTask: ref(""),
       tasks: ref([]),
-      // tasks: ref([
-      //   {
-      //     id: Math.floor(Math.random() * 100) * Date.now(),
-      //     title: "Learn JavaScript",
-      //     done: true,
-      //   },
-      //   {
-      //     id: Math.floor(Math.random() * 100) * Date.now(),
-      //     title: "Learn Vue",
-      //     done: true,
-      //   },
-      //   {
-      //     id: Math.floor(Math.random() * 100) * Date.now(),
-      //     title: "Use Quasar Framework with Vue",
-      //     done: false,
-      //   },
-      // ]),
     };
   },
 
@@ -197,6 +181,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.input-section,
+.tasks-section {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
 .done {
   .q-item__label {
     color: #bbb;
