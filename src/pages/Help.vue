@@ -1,18 +1,20 @@
 <template>
-  <q-page class="q-pa-md help-content">
-    <h5 class="q-mt-none">Help</h5>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio blanditiis
-      ipsum reiciendis eos atque, vitae eveniet cum magni inventore cupiditate
-      repudiandae dolores eligendi ducimus sequi voluptate expedita eius qui
-      quibusdam.
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio blanditiis
-      ipsum reiciendis eos atque, vitae eveniet cum magni inventore cupiditate
-      repudiandae dolores eligendi ducimus sequi voluptate expedita eius qui
-      quibusdam.
-    </p>
+  <q-page class="bg-grey-3 q-pa-md">
+    <div class="help-content">
+      <h5 class="q-mt-none">Help</h5>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio blanditiis
+        ipsum reiciendis eos atque, vitae eveniet cum magni inventore cupiditate
+        repudiandae dolores eligendi ducimus sequi voluptate expedita eius qui
+        quibusdam.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio blanditiis
+        ipsum reiciendis eos atque, vitae eveniet cum magni inventore cupiditate
+        repudiandae dolores eligendi ducimus sequi voluptate expedita eius qui
+        quibusdam.
+      </p>
+    </div>
   </q-page>
 </template>
 
