@@ -1,6 +1,6 @@
 <template>
-  <q-page class="bg-grey-3 q-pa-md">
-    <div class="help-content">
+  <q-page class="bg-grey-3">
+    <div class="help-content q-pa-md">
       <h5 class="q-mt-none">Help</h5>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio blanditiis
