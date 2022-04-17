@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md help-content">
     <h5 class="q-mt-none">Help</h5>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio blanditiis
@@ -24,3 +24,11 @@ export default defineComponent({
   name: "help",
 });
 </script>
+
+<style lang="scss">
+.help-content {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+</style>

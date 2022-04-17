@@ -2,67 +2,60 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
+        <q-toolbar-title></q-toolbar-title>
         <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+          @click="drawer = !drawer"
+        >
+          <q-menu auto-close>
+            <q-img
+              class="absolute-top"
+              src="src/assets/sky.png"
+              style="height: 168px"
+            >
+              <div class="absolute-bottom bg-transparent text-center">
+                <q-avatar size="72px" class="q-mb-sm">
+                  <img src="src/assets/avatar.jpg" />
+                </q-avatar>
+                <div class="text-weight-bold">Gideon Kimaiyo</div>
+                <div>@gideonGDK</div>
+              </div>
+            </q-img>
+            <q-list
+              style="
+                min-width: 200px;
+                height: calc(100% - 180px);
+                margin-top: 180px;
+              "
+            >
+              <q-item to="/" exact clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="list" />
+                </q-item-section>
+
+                <q-item-section> Todo </q-item-section>
+              </q-item>
+              <q-item to="/help" exact clickable v-ripple>
+                <q-item-section avatar>
+                  <q-icon name="help" />
+                </q-item-section>
+
+                <q-item-section> Help </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
-      <div class="q-px-md q-pt-lg q-mb-md">
+      <div class="q-px-md q-pt-lg q-mb-md header-content">
         <div class="text-h3">Todo</div>
         <div class="text-subtitle1">{{ todaysDate }}</div>
       </div>
       <q-img src="src/assets/sky.png" class="header-image absolute-top" />
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      :width="250"
-      :breakpoint="575"
-    >
-      <q-scroll-area
-        style="
-          height: calc(100% - 168px);
-          margin-top: 168px;
-          border-right: 1px solid #ddd;
-        "
-      >
-        <q-list padding>
-          <q-item to="/" exact clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="list" />
-            </q-item-section>
-
-            <q-item-section> Todo </q-item-section>
-          </q-item>
-          <q-item to="/help" exact clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="list" />
-            </q-item-section>
-
-            <q-item-section> Help </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
-
-      <q-img
-        class="absolute-top"
-        src="src/assets/sky.png"
-        style="height: 168px"
-      >
-        <div class="absolute-bottom bg-transparent text-center">
-          <q-avatar size="56px" class="q-mb-sm">
-            <img src="src/assets/avatar.jpg" />
-          </q-avatar>
-          <div class="text-weight-bold">Gideon Kimaiyo</div>
-          <div>@gideonGDK</div>
-        </div>
-      </q-img>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -78,13 +71,8 @@ export default defineComponent({
   name: "MainLayout",
 
   setup() {
-    const leftDrawerOpen = ref(false);
-
     return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
+      drawer: ref(false),
     };
   },
 
@@ -103,5 +91,11 @@ export default defineComponent({
   z-index: -1;
   opacity: 0.3;
   filter: grayscale(100%);
+}
+.header-content {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-bottom: 24px;
 }
 </style>
